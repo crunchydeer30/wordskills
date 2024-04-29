@@ -63,13 +63,26 @@ class FilesController extends Controller
         $data = $request->validated();
 
         if ($file->user_id !== $request->user()->id)
-            throw new AccessDeniedHttpException('Access denied');
+            throw new AccessDeniedHttpException();
 
         $file->update($data);
 
         return response()->json([
             "success" => true,
             "message" => "Renamed"
+        ]);
+    }
+
+    public function destroy(Request $request, File $file): JsonResponse
+    {
+        if ($file->user_id !== $request->user()->id)
+            throw new AccessDeniedHttpException();
+
+        $file->delete();
+
+        return response()->json([
+            "success" => true,
+            "message" => "File already deleted"
         ]);
     }
 }
