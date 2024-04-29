@@ -53,6 +53,6 @@ class FilesController extends Controller
             }
         };
 
-        return response()->json($res_data, 201);
+        return response()->json($res_data, 200);
     }
 }
