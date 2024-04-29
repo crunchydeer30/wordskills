@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers;
+use App\Http\Requests\GrantAccessRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use App\Models\User;
 
 class FilesController extends Controller
 {
@@ -84,5 +86,28 @@ class FilesController extends Controller
             "success" => true,
             "message" => "File already deleted"
         ]);
+    }
+
+    public function grantAccess(GrantAccessRequest $request, File $file): JsonResponse
+    {
+        $data = $request->validated();
+
+        if ($file->user_id !== $request->user()->id)
+            throw new AccessDeniedHttpException();
+
+        $user_to_access = User::where('email', $data['email'])->first();
+        $file->accessed_by()->syncWithoutDetaching($user_to_access->id);
+
+        $users_with_access = $file->accessed_by()->get();
+        $users_with_access = $users_with_access->map(
+            fn ($user) =>
+            [
+                'fullname' => $user->first_name . ' ' . $user->last_name,
+                'email' => $user->email,
+                'type' => $file->user_id === $user->id ? 'author' : 'co-author'
+            ]
+        );
+
+        return response()->json($users_with_access, 200);
     }
 }

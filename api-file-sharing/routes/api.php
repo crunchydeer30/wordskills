@@ -11,3 +11,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::apiResource('files', FilesController::class)->middleware('auth:sanctum');
+
+Route::prefix('files')->controller(FilesController::class)->middleware('auth:sanctum')->group(function () {
+    Route::post('{file}/access', 'grantAccess');
+});
