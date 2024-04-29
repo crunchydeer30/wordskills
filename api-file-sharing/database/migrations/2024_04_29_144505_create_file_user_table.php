@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('file_accesses', function (Blueprint $table) {
-            $table->id();
+        Schema::create('file_user', function (Blueprint $table) {
+            $table->primary(['file_id', 'user_id']);
             $table->foreignId('file_id')->constrained('files')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->unique(['file_id', 'user_id']);
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('file_accesses');
+        Schema::dropIfExists('file_user');
     }
 };

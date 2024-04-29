@@ -21,6 +21,6 @@ class File extends Model
 
     public function accessed_by()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 }
