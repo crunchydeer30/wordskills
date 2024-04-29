@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Helpers;
 use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class FilesController extends Controller
 {
@@ -60,7 +61,12 @@ class FilesController extends Controller
     public function update(UpdateFileRequest $request, File $file): JsonResponse
     {
         $data = $request->validated();
+
+        if ($file->user_id !== $request->user()->id)
+            throw new AccessDeniedHttpException('Access denied');
+
         $file->update($data);
+
         return response()->json([
             "success" => true,
             "message" => "Renamed"
