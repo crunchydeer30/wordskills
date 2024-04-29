@@ -152,4 +152,25 @@ class FilesController extends Controller
 
         return response()->json($users_with_access, 200);
     }
+
+    public function disk(Request $request): JsonResponse
+    {
+        $files = File::query()->where('user_id', $request->user()->id)->with('accessed_by')->get();
+
+        $files = $files->map(
+            fn ($file) =>
+            [
+                'file_id' => $file->id,
+                'name' => $file->name,
+                'url' => Helpers::getHostName($request) . "/" . $file->id,
+                'accesses' => $file->accessed_by->map(fn ($user) => [
+                    'fullname' => $user->first_name . ' ' . $user->last_name,
+                    'email' => $user->email,
+                    'type' => $file->user_id === $user->id ? 'author' : 'co-author'
+                ])
+            ]
+        );
+
+        return response()->json($files, 200);
+    }
 }

@@ -10,9 +10,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
 
-Route::apiResource('files', FilesController::class)->middleware('auth:sanctum');
-
 Route::prefix('files')->controller(FilesController::class)->middleware('auth:sanctum')->group(function () {
     Route::post('{file}/access', 'grantAccess');
     Route::delete('{file}/access', 'revokeAccess');
+    Route::get('disk', 'disk');
 });
+
+Route::apiResource('files', FilesController::class)->middleware('auth:sanctum');
