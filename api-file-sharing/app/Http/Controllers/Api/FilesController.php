@@ -47,7 +47,8 @@ class FilesController extends Controller
                 $res_data[] = [
                     "success" => true,
                     "message" => "File loaded",
-                    "name" => $name
+                    "url" => Helpers::getHostName($request) . "/" . $new_file->id,
+                    "name" => $new_file->name
                 ];
             }
         };
