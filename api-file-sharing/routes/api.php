@@ -12,4 +12,5 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::prefix('files')->controller(FilesController::class)->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'store');
+    Route::patch('/{file}', 'update');
 });

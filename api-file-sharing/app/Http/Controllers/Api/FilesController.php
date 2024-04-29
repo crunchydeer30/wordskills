@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers;
+use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
 
 class FilesController extends Controller
@@ -54,5 +55,15 @@ class FilesController extends Controller
         };
 
         return response()->json($res_data, 200);
+    }
+
+    public function update(UpdateFileRequest $request, File $file): JsonResponse
+    {
+        $data = $request->validated();
+        $file->update($data);
+        return response()->json([
+            "success" => true,
+            "message" => "Renamed"
+        ]);
     }
 }
