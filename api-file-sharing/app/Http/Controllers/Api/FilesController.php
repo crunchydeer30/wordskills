@@ -173,4 +173,23 @@ class FilesController extends Controller
 
         return response()->json($files, 200);
     }
+
+    public function shared(Request $request): JsonResponse
+    {
+        $files = File::query()
+            ->whereNot('user_id', $request->user()->id)
+            ->whereHas('accessed_by', fn ($query) => $query->where('user_id', $request->user()->id))
+            ->get();
+
+        $files = $files->map(
+            fn ($file) =>
+            [
+                'file_id' => $file->id,
+                'name' => $file->name,
+                'url' => Helpers::getHostName($request) . "/" . $file->id
+            ]
+        );
+
+        return response()->json($files, 200);
+    }
 }

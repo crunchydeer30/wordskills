@@ -14,6 +14,7 @@ Route::prefix('files')->controller(FilesController::class)->middleware('auth:san
     Route::post('{file}/access', 'grantAccess');
     Route::delete('{file}/access', 'revokeAccess');
     Route::get('disk', 'disk');
+    Route::get('shared', 'shared');
 });
 
 Route::apiResource('files', FilesController::class)->middleware('auth:sanctum');
