@@ -25,6 +25,21 @@ class FilesController extends Controller
         "image/png"
     ];
 
+    public function index(Request $request): JsonResponse
+    {
+        return response()->json([
+            "success" => true,
+        ]);
+    }
+
+    public function show(Request $request, File $file)
+    {
+        if (!$file->accessed_by()->find($request->user()->id))
+            throw new AccessDeniedHttpException();
+
+        return Storage::download($file->name);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $files = $request->allFiles();
