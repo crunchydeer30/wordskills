@@ -14,4 +14,5 @@ Route::apiResource('files', FilesController::class)->middleware('auth:sanctum');
 
 Route::prefix('files')->controller(FilesController::class)->middleware('auth:sanctum')->group(function () {
     Route::post('{file}/access', 'grantAccess');
+    Route::delete('{file}/access', 'revokeAccess');
 });

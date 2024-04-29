@@ -125,4 +125,31 @@ class FilesController extends Controller
 
         return response()->json($users_with_access, 200);
     }
+
+    public function revokeAccess(GrantAccessRequest $request, File $file): JsonResponse
+    {
+        $data = $request->validated();
+
+        if ($file->user_id !== $request->user()->id)
+            throw new AccessDeniedHttpException();
+
+        if ($data['email'] === $request->user()->email)
+            throw new AccessDeniedHttpException();
+
+        $user_to_revoke_access = User::where('email', $data['email'])->first();
+
+        $file->accessed_by()->detach($user_to_revoke_access->id);
+
+        $users_with_access = $file->accessed_by()->get();
+        $users_with_access = $users_with_access->map(
+            fn ($user) =>
+            [
+                'fullname' => $user->first_name . ' ' . $user->last_name,
+                'email' => $user->email,
+                'type' => $file->user_id === $user->id ? 'author' : 'co-author'
+            ]
+        );
+
+        return response()->json($users_with_access, 200);
+    }
 }
