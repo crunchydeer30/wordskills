@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -25,5 +26,14 @@ return Application::configure(basePath: dirname(__DIR__))
                     'errors' => $exception->errors(),
                 ]
             ], 422);
+        });
+
+        $exceptions->render(function (UnauthorizedException $exception, Request $request) {
+            return response()->json([
+                'error' => [
+                    'code' => 401,
+                    'message' => 'Unauthorized',
+                ]
+            ], 401);
         });
     })->create();
