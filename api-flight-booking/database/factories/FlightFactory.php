@@ -28,7 +28,7 @@ class FlightFactory extends Factory
         }
 
         return [
-            'flight_code' => $this->faker->randomNumber(5),
+            'flight_code' => $this->faker->regexify('/^[A-Z]{2}\d{4}$/'),
             'from_airport_id' => $from,
             'to_airport_id' => $to,
             'departure_time' => $departure,
