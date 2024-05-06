@@ -3,9 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Airport;
+use App\Models\Booking;
 use App\Models\City;
 use App\Models\Flight;
+use App\Models\Passenger;
 use App\Models\User;
+use Database\Factories\BookingFactory;
 use Database\Factories\CityFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -42,5 +45,8 @@ class DatabaseSeeder extends Seeder
         );
 
         Flight::factory(50)->create();
+        Booking::factory(50)->create()->each(function (Booking $booking) {
+            $booking->passengers()->attach(Passenger::factory(2)->create()->pluck('id')->toArray());
+        });
     }
 }
