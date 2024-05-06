@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Airport;
 use App\Models\City;
+use App\Models\Flight;
 use App\Models\User;
 use Database\Factories\CityFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -39,5 +40,7 @@ class DatabaseSeeder extends Seeder
 
             ]
         );
+
+        Flight::factory(50)->create();
     }
 }
