@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Booking;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class PassengerFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'birth_date' => $this->faker->date(),
             'document_number' => $this->faker->creditCardNumber(),
+            'booking_id' => Booking::all()->random()->id
         ];
     }
 }

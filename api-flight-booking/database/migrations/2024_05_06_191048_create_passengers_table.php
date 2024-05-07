@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->date('birth_date');
             $table->string('document_number');
+            $table->foreignId('booking_id')->constrained('bookings');
         });
     }
 

@@ -13,6 +13,10 @@ class Passenger extends Model
 
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
+        'document_number',
+        'birth_date',
     ];
 
     public function bookings()

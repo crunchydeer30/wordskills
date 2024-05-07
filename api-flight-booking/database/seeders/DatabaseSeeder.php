@@ -45,8 +45,7 @@ class DatabaseSeeder extends Seeder
         );
 
         Flight::factory(50)->create();
-        Booking::factory(50)->create()->each(function (Booking $booking) {
-            $booking->passengers()->attach(Passenger::factory(2)->create()->pluck('id')->toArray());
-        });
+        Booking::factory(50)->create();
+        Passenger::factory(100)->create();
     }
 }

@@ -20,7 +20,9 @@ class BookingFactory extends Factory
     {
         return [
             'flight_from_id' => Flight::inRandomOrder()->first()->id,
-            'flight_to_id' => Flight::inRandomOrder()->first()->id,
+            'flight_back_id' => Flight::inRandomOrder()->first()->id,
+            'flight_from_date' => $this->faker->dateTimeBetween('-1 year', '+1 year'),
+            'flight_back_date' => $this->faker->dateTimeBetween('+1 year', '+2 year'),
         ];
     }
 }

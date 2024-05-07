@@ -13,7 +13,10 @@ class Booking extends Model
 
 
     protected $fillable = [
-        'flight_id',
+        'flight_from_id',
+        'flight_back_id',
+        'flight_from_date',
+        'flight_back_date',
         'passengers',
     ];
 
@@ -24,6 +27,6 @@ class Booking extends Model
 
     public function passengers()
     {
-        return $this->belongsToMany(Passenger::class);
+        return $this->hasMany(Passenger::class);
     }
 }
