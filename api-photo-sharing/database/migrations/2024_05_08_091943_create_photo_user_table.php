@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('photo_user', function (Blueprint $table) {
             $table->primary(['photo_id', 'user_id']);
             $table->unique(['photo_id', 'user_id']);
-            $table->foreignId('photo_id')->constrained('photos');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('photo_id')->references('id')->on('photos');
+            $table->foreignId('user_id')->references('id')->on('users');
         });
     }
 

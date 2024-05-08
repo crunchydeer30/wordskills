@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->default('Untitled');
             $table->string('path');
-            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('owner_id')->references('id')->on('users');
         });
     }
 
