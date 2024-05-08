@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePhotoRequest;
+use App\Http\Requests\UpdatePhotoRequest;
 use App\Http\Resources\PhotoResource;
 use App\Models\Photo;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -68,15 +68,29 @@ class PhotosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Photo $photo, UpdatePhotoRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if (isset($data['photo'])) {
+            $imageData = explode(',', $data['photo'])[1];
+            $decodedImage = base64_decode($imageData);
+            Storage::delete($photo->path);
+            Storage::put($photo->path, $decodedImage);
+        }
+
+        if (isset($data['name'])) {
+            $photo->name = $data['name'];
+        }
+
+        $photo->save();
+        return new PhotoResource($photo);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Photo $photo)
+    public function destroy(Photo $photo)
     {
         $this->authorize('delete', $photo);
         $photo->delete();
