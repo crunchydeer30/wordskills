@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePhotoRequest;
 use App\Http\Resources\PhotoResource;
 use App\Models\Photo;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 
 class PhotosController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -70,8 +72,10 @@ class PhotosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Photo $photo)
     {
-        //
+        $this->authorize('delete', $photo);
+        $photo->delete();
+        return response()->noContent();
     }
 }
