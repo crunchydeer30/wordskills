@@ -19,7 +19,11 @@ class PhotosController extends Controller
      */
     public function index()
     {
-        //
+        $photos = Photo::query()->with('accessed_by')->whereHas('accessed_by', function ($query) {
+            $query->where('user_id', request()->user()->id);
+        })->get();
+
+        return PhotoResource::collection($photos);
     }
 
     /**
