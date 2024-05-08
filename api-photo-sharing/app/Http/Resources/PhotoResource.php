@@ -17,7 +17,9 @@ class PhotoResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'url' => request()->getSchemeAndHttpHost() . "/{$this->id}"
+            'url' => request()->getSchemeAndHttpHost() . "/{$this->id}",
+            'owner_id' => $this->owner_id,
+            'users' => $this->accessed_by()->pluck('id')->toArray(),
         ];
     }
 }

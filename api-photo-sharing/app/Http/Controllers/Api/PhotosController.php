@@ -42,15 +42,21 @@ class PhotosController extends Controller
         );
         $photo->save();
 
-        return response()->json(new PhotoResource($photo), 201);
+        return response()->json([
+            'id' => $photo->id,
+            'name' => $photo->name,
+            'url' => request()->getSchemeAndHttpHost() . "/{$photo->id}"
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Photo $photo)
     {
-        //
+        $photo->load('accessed_by');
+        $photo = new PhotoResource($photo);
+        return $photo;
     }
 
     /**
