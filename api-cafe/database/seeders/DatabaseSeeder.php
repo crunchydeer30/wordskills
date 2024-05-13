@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'cook']);
 
         User::factory(10)->create();
+        User::factory()->create(['name' => 'admin', 'login' => 'admin', 'password' => 'admin', 'role_id' => 1]);
     }
 }
