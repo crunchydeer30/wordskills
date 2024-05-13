@@ -33,7 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json([
                 'error' => [
                     'code' => 403,
-                    'message' => 'Login Failed'
+                    'message' => $e->getMessage() ?? 'Login Failed'
                 ]
             ], 403);
         });
@@ -42,17 +42,17 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json([
                 'error' => [
                     'code' => 403,
-                    'message' => 'Forbidden for you'
+                    'message' => $e->getMessage() ?? 'Forbidden for you'
                 ]
             ], 403);
         });
 
-        $exceptions->render(function (ValidationException $exception, Request $request) {
+        $exceptions->render(function (ValidationException $e, Request $request) {
             return response()->json([
                 'error' => [
                     'code' => 422,
-                    'message' => 'Validation error',
-                    'errors' => $exception->errors(),
+                    'message' => $e->getMessage() ?? 'Validation error',
+                    'errors' => $e->errors(),
                 ]
             ], 422);
         });

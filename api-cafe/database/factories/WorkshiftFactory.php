@@ -23,7 +23,8 @@ class WorkshiftFactory extends Factory
 
         return [
             'start' => $start,
-            'end' => $end
+            'end' => $end,
+            'active' => false,
         ];
     }
 }

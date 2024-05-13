@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (request()->user()->role->name !== 'admin') {
-            throw new AccessDeniedHttpException('Access denied');
+            throw new AccessDeniedHttpException();
         };
 
         $users = User::query()->with('role')->get();
@@ -33,7 +33,7 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
         if (request()->user()->role->name !== 'admin') {
-            throw new AccessDeniedHttpException('Access denied');
+            throw new AccessDeniedHttpException();
         };
 
         $data = $request->validated();

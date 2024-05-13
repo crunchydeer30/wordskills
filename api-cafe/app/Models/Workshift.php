@@ -11,5 +11,5 @@ class Workshift extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['start', 'end'];
+    protected $fillable = ['start', 'end', 'active'];
 }
