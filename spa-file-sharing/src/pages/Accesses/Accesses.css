@@ -1,0 +1,86 @@
+#accesses {
+  margin: 0;
+
+  .accessRight {
+    width: 800px;
+    border: 1px solid darkblue;
+    border-radius: 5px;
+    margin: 0 auto;
+
+    display: grid;
+    gap: 40px;
+    position: relative;
+  }
+
+  h2 {
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  form {
+    padding: 15px 35px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+  }
+
+  input {
+    border: 2px solid blue;
+    border-radius: 2px;
+    outline: none;
+    padding: 5px;
+    min-width: 400px;
+    transition: 0.3s;
+
+    &:hover {
+      border: 2px solid darkblue;
+    }
+  }
+
+  input[type="submit"] {
+    min-width: 100px;
+    background-color: transparent;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .userList {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .userList article {
+    display: grid;
+    grid-template-columns: 1fr 1fr 200px;
+    gap: 20px;
+    padding: 5px 35px;
+  }
+
+  .userList article:nth-child(2n) {
+    background-color: lightblue;
+  }
+
+  .userList article p {
+    align-self: center;
+  }
+
+  .deleteButton {
+    color: red;
+    display: block;
+    padding: 5px;
+    width: fit-content;
+    border: 1px solid black;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .back {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px dotted #333;
+  }
+}

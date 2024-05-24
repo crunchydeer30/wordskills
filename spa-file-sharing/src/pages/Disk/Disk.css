@@ -1,0 +1,109 @@
+#disk {
+  margin: 0;
+  display: grid;
+  grid-template-rows: 100px 1fr 100px;
+  height: 100vh;
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  header,
+  main,
+  footer {
+    width: 1440px;
+    margin: 0 auto;
+    border: 1px solid darkblue;
+    padding: var(--padding);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 1.5em;
+  }
+
+  nav {
+    display: flex;
+    gap: 20px;
+  }
+
+  button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 2px;
+    background-color: darkblue;
+    color: white;
+
+    &:hover {
+      box-shadow: 0 5px 15px aqua;
+    }
+  }
+
+  .control {
+    padding: 0;
+    border-radius: 0;
+    background-color: transparent;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+
+  main {
+    text-align: center;
+  }
+
+  .folders {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+  }
+
+  .folder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: 2px solid darkblue;
+    border-radius: 5px;
+    width: 310px;
+  }
+  .folderIcon {
+    width: 30%;
+    height: auto;
+
+    stroke: #000;
+  }
+  .menuFolder {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    stroke: #000;
+    width: fit-content;
+  }
+  .menuFolder svg {
+    cursor: pointer;
+  }
+  .menuFolder svg:hover {
+    filter: drop-shadow(0 0 5px #3333);
+    transition: 0.3s;
+  }
+  .descriptionFolder {
+    max-width: 200px;
+  }
+
+  footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
