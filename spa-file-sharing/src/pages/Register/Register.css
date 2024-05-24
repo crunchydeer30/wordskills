@@ -1,0 +1,50 @@
+#register {
+  margin: 0;
+  display: flex;
+  object-fit: fill;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  a {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    padding: 15px;
+    transition: 0.3s;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      border-bottom: 1px solid darkblue;
+    }
+  }
+  form {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid darkblue;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 139, 0.54);
+    h3 {
+      text-align: center;
+      font-size: 3em;
+    }
+
+    input {
+      border: 2px solid blue;
+      border-radius: 2px;
+      outline: none;
+      padding: 5px;
+      &:hover {
+        border: 2px solid darkblue;
+      }
+    }
+    input[type="submit"] {
+      background-color: transparent;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+}
