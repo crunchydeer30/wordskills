@@ -26,8 +26,9 @@ class TripController extends Controller
             ->get();
 
         $trips_to = new TripCollection($trips_to, $q['date1']);
+        $trips_to = array_filter($trips_to->toArray($request), fn ($trip) => $trip->availability($q['date1']) > $q['passengers']);
 
-        $trips_back = isset($q['back'])
+        $trips_back = isset($q['date2'])
             ? Trip::query()
             ->whereHas('from', function ($query) use ($q) {
                 $query->where('code', $q['to']);

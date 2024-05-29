@@ -23,20 +23,6 @@ class TripResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $bookings = Booking::query()
-            ->where('trip_from_id', $this->id)
-            ->where('date_from', $this->date)
-            ->orWhere(function ($query) {
-                $query->when(isset($this->back->id), function ($query) {
-                    return $query->where('trip_back_id', $this->id)
-                        ->where('date_back', $this->date);
-                });
-            })
-            ->withCount('passengers')
-            ->get();
-
-        $num_passengers = $bookings->sum('passengers_count');
-
         return [
             'trip_id' => $this->id,
             'trip_code' => $this->trip_code,

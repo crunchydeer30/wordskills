@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '12:00',
                 'arrival' => '13:35',
                 'cost' => 9500,
-                'capacity' => 160
+                'capacity' => 2
             ],
             [
                 'trip_code' => 'FP1201',
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '08:35',
                 'arrival' => '10:05',
                 'cost' => 10500,
-                'capacity' => 160
+                'capacity' => 2
             ],
             [
                 'trip_code' => 'FP2100',
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '08:35',
                 'arrival' => '10:05',
                 'cost' => 10500,
-                'capacity' => 160
+                'capacity' => 2
             ],
             [
                 'trip_code' => 'FP2101',
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '12:00',
                 'arrival' => '13:35',
                 'cost' => 12500,
-                'capacity' => 160
+                'capacity' => 2
             ],
         ]);
 
