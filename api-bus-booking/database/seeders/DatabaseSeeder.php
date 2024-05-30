@@ -117,7 +117,8 @@ class DatabaseSeeder extends Seeder
             [
                 'place' => '7B',
                 'booking_id' => $booking->id,
-                'passenger_id' => $passengers[0]->id
+                'passenger_id' => $passengers[0]->id,
+                'type' => 'from'
             ]
         ]);
     }
