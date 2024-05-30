@@ -9,8 +9,15 @@ class BookedSeat extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function booking()
     {
         return $this->belongsTo(Booking::class);
+    }
+
+    public function passenger()
+    {
+        return $this->belongsTo(Passenger::class);
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('document_number')->unique();
+            $table->string('document_number');
             $table->date('birth_date');
         });
     }

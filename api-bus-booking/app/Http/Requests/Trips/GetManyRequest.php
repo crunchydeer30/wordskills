@@ -25,7 +25,7 @@ class GetManyRequest extends FormRequest
             'from' => 'required|string|exists:stations,code',
             'to' => 'required|string|exists:stations,code',
             'date1' => 'required|date|date_format:Y-m-d',
-            'date2' => 'optional|date|date_format:Y-m-d',
+            'date2' => 'date|date_format:Y-m-d',
             'passengers' => 'required|numeric|min:1|max:25',
         ];
     }

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->uniqie();
             $table->foreignId('trip_from_id')->references('id')->on('trips');
-            $table->foreignId('trip_back_id')->references('id')->on('trips');
+            $table->foreignId('trip_back_id')->nullable()->references('id')->on('trips');
             $table->date('date_from');
-            $table->date('date_back');
+            $table->date('date_back')->nullable();
+            $table->foreignId('user_id')->references('id')->on('users');
         });
     }
 

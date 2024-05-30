@@ -11,6 +11,16 @@ class Booking extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'trip_from_id',
+        'trip_back_id',
+        'date_from',
+        'date_back',
+        'code',
+        'passengers',
+        'user_id',
+    ];
+
     public function trip_from()
     {
         return $this->belongsTo(Trip::class);
@@ -24,5 +34,10 @@ class Booking extends Model
     public function passengers()
     {
         return $this->belongsToMany(Passenger::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

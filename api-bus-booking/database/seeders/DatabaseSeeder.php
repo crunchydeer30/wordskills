@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BookedSeat;
 use App\Models\Booking;
 use App\Models\City;
 use App\Models\Passenger;
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '12:00',
                 'arrival' => '13:35',
                 'cost' => 9500,
-                'capacity' => 2
+                'capacity' => 160
             ],
             [
                 'trip_code' => 'FP1201',
@@ -62,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '08:35',
                 'arrival' => '10:05',
                 'cost' => 10500,
-                'capacity' => 2
+                'capacity' => 160
             ],
             [
                 'trip_code' => 'FP2100',
@@ -71,7 +72,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '08:35',
                 'arrival' => '10:05',
                 'cost' => 10500,
-                'capacity' => 2
+                'capacity' => 160
             ],
             [
                 'trip_code' => 'FP2101',
@@ -80,7 +81,7 @@ class DatabaseSeeder extends Seeder
                 'departure' => '12:00',
                 'arrival' => '13:35',
                 'cost' => 12500,
-                'capacity' => 2
+                'capacity' => 160
             ],
         ]);
 
@@ -105,9 +106,19 @@ class DatabaseSeeder extends Seeder
                 'trip_back_id' => 2,
                 'date_from' => '2024-05-29',
                 'date_back' => '2024-05-30',
+                'code' => 'QSASE',
+                'user_id' => 1
             ]
         );
 
         $booking->passengers()->attach($passengers);
+
+        $booked_seats = BookedSeat::factory()->createMany([
+            [
+                'place' => '7B',
+                'booking_id' => $booking->id,
+                'passenger_id' => $passengers[0]->id
+            ]
+        ]);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('passenger_id')->references('id')->on('passengers');
             $table->foreignId('booking_id')->references('id')->on('bookings');
             $table->enum('type', ['from', 'back']);
-            $table->string('seat');
+            $table->string('place');
         });
     }
 
