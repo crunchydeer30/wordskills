@@ -23,4 +23,6 @@ Route::prefix('trip')->controller(TripController::class)->group(function () {
 Route::prefix('booking')->controller(BookingController::class)->group(function () {
     Route::get('{code}', 'show');
     Route::post('', 'store')->middleware('auth:sanctum');
+    Route::get('{code}/seat', 'getSeats');
+    Route::post('{code}/seat', 'bookSeats')->middleware('auth:sanctum');
 });

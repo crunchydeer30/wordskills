@@ -40,4 +40,9 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function booked_seats()
+    {
+        return $this->hasMany(BookedSeat::class);
+    }
 }

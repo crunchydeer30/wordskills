@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Bookings\BookSeatRequest;
 use App\Http\Requests\Bookings\StoreRequest;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\PassengerResource;
+use App\Models\BookedSeat;
 use App\Models\Booking;
 use App\Models\Passenger;
 use App\Models\Trip;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class BookingController extends Controller
 {
@@ -62,7 +68,101 @@ class BookingController extends Controller
             ->where('code', $code)->firstOrFail();
 
         return response()->json(
-            new BookingResource($booking)
+            [
+                'data' => new BookingResource($booking)
+            ]
         );
+    }
+
+    public function getSeats($code)
+    {
+        $booking = Booking::query()
+            ->where('code', $code)->firstOrFail();
+
+        $occupied_from = $booking->booked_seats->filter(fn ($seat) => $seat->type === 'from');
+        $occupied_back = $booking->booked_seats->filter(fn ($seat) => $seat->type === 'back');
+
+        return response()->json([
+            'data' => [
+                'occupied_from' => $occupied_from->map(fn ($seat) => ['passenger_id' => $seat->passenger_id, 'seat' => $seat->place]),
+                'occupied_back' => $occupied_back->map(fn ($seat) => ['passenger_id' => $seat->passenger_id, 'seat' => $seat->place]),
+            ]
+        ]);
+    }
+
+    public function bookSeats(BookSeatRequest $request, $code)
+    {
+        $data = $request->validated();
+
+        $booking = Booking::query()
+            ->where('code', $code)->firstOrFail();
+
+        if ($booking->user_id !== auth()->user()->id) {
+            throw new AccessDeniedHttpException('Forbidden');
+        }
+
+        $passenger = $booking->passengers->find($data['passenger']);
+
+        if (!$passenger) {
+            throw new ValidationException('Пассажир не зарегистрирован в этом бронировании');
+        }
+
+        $booked_seats = [];
+
+        if ($data['type'] === 'from') {
+            $booked_seats = BookedSeat::query()
+                ->whereHas('booking', function ($query) use ($booking) {
+                    $query->where('trip_from_id', $booking->trip_from_id)
+                        ->where('date_from', $booking->date_from)
+                        ->orWhere(function ($query) use ($booking) {
+                            $query->where('trip_from_id', $booking->trip_from_id)
+                                ->where('date_from', $booking->date_from);
+                        });
+                })
+                ->get();
+        } else if ($data['type'] === 'back') {
+            $booked_seats = BookedSeat::query()
+                ->whereHas('booking', function ($query) use ($booking) {
+                    $query->where('trip_from_id', $booking->trip_back_id)
+                        ->where('date_from', $booking->date_back)
+                        ->orWhere(function ($query) use ($booking) {
+                            $query->where('trip_from_id', $booking->trip_back_id)
+                                ->where('date_from', $booking->date_back);
+                        });
+                })
+                ->get();
+        }
+
+        if ($booked_seats->pluck('place')->contains($data['seat'])) {
+            return response()->json([
+                'error' => [
+                    'code' => 422,
+                    'message' => 'Место занято',
+                ]
+            ], 422);
+        }
+
+        $booked_seat = BookedSeat::query()
+            ->where('booking_id', $booking->id)
+            ->where('passenger_id', $passenger->id)
+            ->where('type', $data['type'])
+            ->first();
+
+        if (!$booked_seat) {
+            BookedSeat::query()->create([
+                'booking_id' => $booking->id,
+                'passenger_id' => $passenger->id,
+                'type' => $data['type'],
+                'place' => $data['seat'],
+            ]);
+        } else {
+            $booked_seat->update([
+                'place' => $data['seat'],
+            ]);
+        }
+
+        return response()->json([
+            'data' => new PassengerResource($passenger, $booking->id)
+        ]);
     }
 }

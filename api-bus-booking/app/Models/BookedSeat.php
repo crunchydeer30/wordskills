@@ -11,6 +11,13 @@ class BookedSeat extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'booking_id',
+        'passenger_id',
+        'type',
+        'place',
+    ];
+
     public function booking()
     {
         return $this->belongsTo(Booking::class);
